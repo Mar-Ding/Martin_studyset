@@ -6,17 +6,15 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    # 获取包路径
+    
     pkg_path = get_package_share_directory('learning_gazebo')
     
-    # 加载已有的激光小车Gazebo启动文件
     gazebo_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             os.path.join(pkg_path, 'launch', 'load_mbot_laser_into_gazebo.launch.py')
         ])
     )
     
-    # SLAM工具箱节点
     slam_toolbox_node = Node(
         parameters=[
             os.path.join(pkg_path, 'config', 'mapper_params_online_async.yaml'),
@@ -27,8 +25,7 @@ def generate_launch_description():
         name='slam_toolbox',
         output='screen'
     )
-    
-    # RViz2节点 - 使用你已有的配置添加地图显示
+   
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
